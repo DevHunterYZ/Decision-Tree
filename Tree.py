@@ -1,4 +1,3 @@
-#Predicting football results with Decision Tree and Adaptive Boosting.
 import numpy as np
 import pandas as pd
 data1=pd.read_csv('2016-17.csv', parse_dates=[1])
@@ -14,18 +13,17 @@ feature_columns = ['B365H', 'B365D', 'B365A', 'BWH', 'BWD', 'BWA', 'IWH',
                     'SJA', 'SYH', 'SYD','SYA', 'VCH', 'VCD', 'VCA', 'WHH',
                     'WHD', 'WHA']
 from sklearn.preprocessing import Imputer
- 
-#Column numbers for odds for the three outcomes 
+
 cidx_home = [i for i, col in enumerate(dta.columns) if col[-1] in 'H' and col in feature_columns]
 cidx_draw = [i for i, col in enumerate(dta.columns) if col[-1] in 'D' and col in feature_columns]
 cidx_away = [i for i, col in enumerate(dta.columns) if col[-1] in 'A' and col in feature_columns]
  
-#The three feature matrices for training
+
 feature_train_home = dta.ix[train_idx, cidx_home].as_matrix()
 feature_train_draw = dta.ix[train_idx, cidx_draw].as_matrix()
 feature_train_away = dta.ix[train_idx, cidx_away].as_matrix()
  
-#The three feature matrices for testing
+
 feature_test_home = dta.ix[test_idx, cidx_home].as_matrix()
 feature_test_draw = dta.ix[test_idx, cidx_draw].as_matrix()
 feature_test_away = dta.ix[test_idx, cidx_away].as_matrix()
@@ -46,8 +44,7 @@ for idx, farray in enumerate(train_arrays):
      
     imputed_training_matrices.append(farray)
     imputed_test_matrices.append(test_arrays[idx])
- 
-#merge the imputed arrays
+
 feature_train = np.concatenate(imputed_training_matrices, axis=1)
 feature_test = np.concatenate(imputed_test_matrices, axis=1)
 from sklearn.ensemble import AdaBoostClassifier
